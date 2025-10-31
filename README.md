@@ -1,0 +1,2 @@
+# LOVE-NOTES-02
+loveV.2
