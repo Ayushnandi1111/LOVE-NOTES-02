@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For Him/Her: A Message of Love</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Font: Playfair Display for an elegant look -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        /* Custom styles to incorporate the font and soft scrolling */
+        body {
+            font-family: 'Playfair Display', serif;
+            background: linear-gradient(135deg, #fce4ec 0%, #f4e8ff 100%); /* Soft Pink to Lavender Gradient */
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem 0;
+        }
+
+        /* Subtle pulsating heart animation */
+        .pulsate-heart {
+            animation: pulsate 1.5s infinite ease-in-out;
+        }
+
+        @keyframes pulsate {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        /* Style for the text output to make it feel like handwriting */
+        #output-message {
+            white-space: pre-wrap;
+            line-height: 1.6;
+            font-size: clamp(1.1rem, 2vw, 1.5rem);
+        }
+        
+        /* Keyframes for the glowing dedication effect */
+        @keyframes glow {
+            0%, 100% {
+                text-shadow: 0 0 5px #f9a8d4, 0 0 10px #ec4899; /* Soft pink/rose shadow */
+                color: #f472b6; /* Rose 400 */
+            }
+            50% {
+                text-shadow: 0 0 10px #fce7f3, 0 0 20px #f43f5e, 0 0 30px #ec4899; /* Brighter glow */
+                color: #fbcfe8; /* Pink 200 (brighter text) */
+            }
+        }
+
+        /* Class for the glowing dedication text */
+        .glowing-dedication {
+            animation: glow 3s infinite ease-in-out;
+            transition: color 0.5s;
+            text-shadow: 0 0 5px #f9a8d4; /* Initial shadow */
+        }
+    </style>
+</head>
+<body class="p-4">
+
+    <div class="container max-w-4xl w-full mx-auto">
+        <!-- Main Card Container -->
+        <div class="bg-white p-6 sm:p-10 md:p-12 rounded-3xl shadow-2xl border border-pink-100 transform transition duration-500 hover:shadow-3xl">
+
+            <!-- Title Section -->
+            <header class="text-center mb-10">
+                <svg class="w-12 h-12 inline-block text-pink-500 pulsate-heart mb-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"></path>
+                </svg>
+                <h1 class="text-4xl sm:text-5xl font-bold text-red-600 mb-2">A Heartfelt Note</h1>
+                <p class="text-gray-500 italic text-lg">Type your message below and see it magically prepared.</p>
+            </header>
+
+            <!-- Input Form Section -->
+            <div id="input-section" class="mb-10 space-y-4">
+                <input type="text" id="recipient-name" placeholder="Recipient's Name (e.g., My Love)" class="w-full p-3 border-2 border-pink-200 rounded-xl focus:ring-4 focus:ring-pink-300 focus:border-pink-400 transition duration-300" maxlength="50">
+                <input type="text" id="sender-name" placeholder="Your Name (e.g., Your Secret Admirer)" class="w-full p-3 border-2 border-pink-200 rounded-xl focus:ring-4 focus:ring-pink-300 focus:border-pink-400 transition duration-300" maxlength="50">
+                <textarea id="message-body" rows="6" placeholder="Write your deepest feelings here. For example: 'Every moment with you is a cherished gift. You are the reason my world is bright.'" class="w-full p-3 border-2 border-pink-200 rounded-xl focus:ring-4 focus:ring-pink-300 focus:border-pink-400 transition duration-300 resize-none"></textarea>
+
+                <button id="generate-button" class="w-full py-3 bg-red-500 text-white font-bold rounded-xl shadow-lg hover:bg-red-600 transition duration-300 transform hover:scale-[1.01] active:scale-100">
+                    Prepare My Love Letter
+                </button>
+            </div>
+
+            <!-- Output Display Section (Hidden by Default) -->
+            <div id="output-section" class="hidden text-center border-t-2 border-pink-200 pt-8 mt-8">
+                <h2 class="text-3xl font-bold text-red-600 mb-6">A Letter to <span id="display-recipient"></span></h2>
+                
+                <div class="bg-pink-50 p-6 sm:p-8 rounded-2xl shadow-inner border border-pink-200">
+                    <p id="output-message" class="text-gray-800 italic font-normal"></p>
+                </div>
+
+                <p class="text-xl text-gray-700 mt-6">
+                    With all my love,
+                </p>
+                <p id="display-sender" class="text-2xl font-bold text-red-500 mt-2"></p>
+
+                <button id="reset-button" class="mt-8 py-2 px-6 bg-pink-500 text-white font-medium rounded-full hover:bg-pink-600 transition duration-300">
+                    Write Another Note
+                </button>
+            </div>
+        </div>
+
+        <footer class="text-center mt-6 text-sm">
+            <!-- Dedication by user: glowing and animated -->
+            <p class="glowing-dedication text-lg font-bold">
+                Copyright AYUSH NANDI dedicated to PIU GHOSH
+            </p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const recipientInput = document.getElementById('recipient-name');
+            const senderInput = document.getElementById('sender-name');
+            const messageBody = document.getElementById('message-body');
+            const generateButton = document.getElementById('generate-button');
+            const resetButton = document.getElementById('reset-button');
+            const inputSection = document.getElementById('input-section');
+            const outputSection = document.getElementById('output-section');
+            
+            const displayRecipient = document.getElementById('display-recipient');
+            const displaySender = document.getElementById('display-sender');
+            const outputMessage = document.getElementById('output-message');
+
+            // Default values for a cleaner initial look
+            recipientInput.value = 'My dearest love';
+            senderInput.value = 'Your Partner';
+            messageBody.value = 'My heart is yours completely. Every day, you inspire me to be better. Thank you for being the most incredible person in my life. I love you more than words can say.';
+
+            function generateMessage() {
+                const recipient = recipientInput.value.trim() || 'My Love';
+                const sender = senderInput.value.trim() || 'Your Admirer';
+                const message = messageBody.value.trim() || 'I love you.';
+
+                // Construct the final message output
+                outputMessage.textContent = message;
+                
+                // Update display fields
+                displayRecipient.textContent = recipient;
+                displaySender.textContent = sender;
+                
+                // Switch views
+                inputSection.classList.add('hidden');
+                outputSection.classList.remove('hidden');
+
+                // Scroll back to the top of the card for a clear view
+                outputSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+
+            function resetPage() {
+                // Switch views
+                outputSection.classList.add('hidden');
+                inputSection.classList.remove('hidden');
+                
+                // Clear inputs on reset for a fresh start (optional, but good for privacy)
+                recipientInput.value = '';
+                senderInput.value = '';
+                messageBody.value = '';
+                
+                // Put focus back on the recipient input
+                recipientInput.focus();
+            }
+
+            // Event Listeners
+            generateButton.addEventListener('click', generateMessage);
+            resetButton.addEventListener('click', resetPage);
+            
+            // Allow pressing Enter in the message body to trigger generation
+            messageBody.addEventListener('keypress', (e) => {
+                // Check if Ctrl+Enter (or Cmd+Enter on Mac) is pressed
+                if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) {
+                    e.preventDefault();
+                    generateMessage();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
